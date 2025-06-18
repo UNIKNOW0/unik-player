@@ -1,49 +1,66 @@
 //imports
-const http = require('http');
-const express = require('express');
-const WebSocket = require('ws');
-const path = require('path');
 const { SMTCMonitor } = require('@coooookies/windows-smtc-monitor');
-const { title } = require('process');
-const { exportMediaData } = require('./express.js')
+const { startWebSocketServer, broadcastMediaData } = require('./ws.js');
+
+startWebSocketServer()
 
 
-let sessions = SMTCMonitor.getMediaSessions();
+let previousSession = [{
+    sourceAppId: '308046B0AF4A39CB',
+    media: {
+      title: 'c̸̱͒̈́ͅh̷̖͇̆́e̴̦͔̰̿̀̿r̶̝͕̜͑̿n̷̨̻̺̆̄́ǫ̴͉̦̀b̷̠͙̆ũ̸̧̬̘̕r̶̜̾ͅk̴̨̛̘̳̑̊v̷̝͓͂Б̸̛̪л̴̛                                                                 ̞и̸̡̤̅̋з̸͖͓̌н̸̘̊̕е̵͂',
+      artist: '✿ 111loggedin // xxenaa ♡',
+      albumTitle: '',
+      albumArtist: '',
+      genres: [],
+      albumTrackCount: 0,
+      trackNumber: 0,
+      thumbnail: 0
+    },
+    playback: { playbackStatus: 4, playbackType: 1 },
+    timeline: { position: 0, duration: 1 },
+    lastUpdatedTime: 1750251992065
+  }]
 
-getBasicMediaFunction()
-
+  getBasicMediaFunction()
 
 //console.log(SMTCMonitor.getCurrentMediaSession())
 
 
 function getBasicMediaFunction(){ // беру только то, что будет показываться. на виджете
 
-  sessions = SMTCMonitor.getMediaSessions();
-  activeSession = sessions.filter(s => s.playback.playbackStatus == 4)
-  if(activeSession.length > 0){
-    console.log("===================НА ЭКСПОРТ===================")
-    console.log(activeSession[0])
-    console.log("^^^^^^^^^^^^^^^^^^ НА ЭКСПОРТ ^^^^^^^^^^^^^^^^^^")
+  //берем последнее активное медиа
 
+  try{
+ 
+    sessions = SMTCMonitor.getMediaSessions();
     
-    exportMediaData(app, activeSession[0])
-  }
+    let activeSession = sessions.filter(s => s.playback.playbackStatus == 4)
+    activeSession = activeSession.filter(s => (s.timeline.duration !== 0))
 
-  
-  
+    if(activeSession.length > 0){
+
+        broadcastMediaData(activeSession[0])
+        previousSession = activeSession
+
+    } else {
+      broadcastMediaData(null)
+    }
+
+    }catch(err) {
+    console.log(err, "smtc посыпался")
+    }
 }
 
 
 //мониторы -------------------------------------------------
 const monitor = new SMTCMonitor();
 
-let mediaProps_ = 0;
 monitor.on('session-media-changed', (appId, mediaProps) => {
 
-  if(mediaProps_ != mediaProps){
-    console.log(mediaProps + " session-media-changed")
+    console.log(" session-media-changed")
     //console.dir(mediaProps, { depth: null, colors: true });
-  }
+    getBasicMediaFunction()
 
 });
 
@@ -52,35 +69,28 @@ monitor.on('session-media-changed', (appId, mediaProps) => {
 //так же показывает длительность трека
 monitor.on('session-timeline-changed', (appId, timeline) => {
 
-  //console.log(timeline + " session-timeline-changed")
+  console.log(" session-timeline-changed")
   //console.dir(timeline, { depth: null, colors: true });
 
-  getBasicMediaFunction()
+  //getBasicMediaFunction()
 
-});
+}); 
 
 
 //монитор работы пауз. выдает коды работы медиа. 
 // playbacktype   1-closed  2-opened  3-changing  
 // playbackstatus 4-playing  5-paused
-let playBackInfo_ = 0 //нужен для сравнения старых и новых данных. иначе срет в терминал
+//нужен для сравнения старых и новых данных. иначе срет в терминал
 monitor.on('session-playback-changed', (appId, playbackInfo) => {
 
-    if(playBackInfo_ != playbackInfo){
-      //console.log(playbackInfo?.playbackStatus + " session-playback-changed")
-      //console.dir(appId, { depth: null, colors: true });
-      playBackInfo_ = playbackInfo
-
-      getBasicMediaFunction()
-    }
-      
+  getBasicMediaFunction()
+    
     
 });
 
 
 monitor.on('session-added', (appId, mediaInfo) => {
 
-  console.log(mediaInfo + " session-added")
-  console.dir(mediaInfo, { depth: null, colors: true });
+  console.log(" session-added")
 
 })

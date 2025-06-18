@@ -1,18 +1,19 @@
+import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [tailwindcss(), svelte()],
   build: {
-    outDir: '../backend/public',  // после сборки фронта файлы будут скопированы в бэкенд
-    emptyOutDir: true,
+    outDir: '../backend/public',
+    emptyOutDir: true
   },
   server: {
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        secure: false,
+        secure: false
       }
     }
   }
