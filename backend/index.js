@@ -49,6 +49,7 @@ function getBasicMediaFunction(){ // беру только то, что буде
 
     }catch(err) {
     console.log(err, "smtc посыпался")
+    getBasicMediaFunction()
     }
 }
 

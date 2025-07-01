@@ -2,12 +2,19 @@
   import './app.css';
   import { onMount } from 'svelte';
   import { Progressbar } from "flowbite-svelte";
-  
+  import { Vibrant } from "node-vibrant/browser";
+
+  //variables
+  import { style } from './stores'
+  console.log($style)
   let mediaData = null;
   let ws;
   let reconnectTimeout = 1000;
-  let imageUrl = null;
-  let imageSrc;
+
+  // переменные для плеера
+  let thumbnail
+  let title
+  let artist
   
   function connect() {
     const url = 'ws://localhost:8080';
@@ -25,13 +32,21 @@
         console.log(mediaData);
   
         if (mediaData != null) {
+
+          title = mediaData.media.title
+          artist = mediaData.media.artist
+
           if (mediaData.media.thumbnail != null) {
             const uint8 = new Uint8Array(mediaData.media.thumbnail.data);
             const blob = new Blob([uint8], { type: 'image/png' });
-  
-            imageSrc = URL.createObjectURL(blob);
+            thumbnail = URL.createObjectURL(blob);
+
+            
+            let v = new Vibrant(thumbnail);
+            v.getPalette().then((palette) => console.log(palette));
+              
           } else {
-            console.log("нихера нет");
+            thumbnail = null
           }
         }
       } catch(err) {
@@ -63,10 +78,11 @@
   {#if mediaData === null}
     <p>Нет активной сессии или данных ещё нет</p>
   {:else}
-    <h2>Now Playing:</h2>
-    <p>Title: {mediaData.media.title}</p>
-    <p>Artist: {mediaData.media.artist}</p>
-    <img src={imageSrc} alt=" ноуп ">
-    <Progressbar labelOutside="Animation" class="bg-yellow-300 rounded-2xl "/>
+
+<h1>{$style}</h1>
+
   {/if}
 </main>
+
+<style>
+</style>

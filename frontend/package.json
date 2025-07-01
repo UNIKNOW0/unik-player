@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@coooookies/windows-smtc-monitor": "^1.0.12",
-    "flowbite-svelte": "^1.7.1"
+    "flowbite-svelte": "^1.7.1",
+    "node-vibrant": "^4.0.3"
   }
 }
