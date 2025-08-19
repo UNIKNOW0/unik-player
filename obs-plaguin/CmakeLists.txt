@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.12)
+project(music_player_plugin LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Настройте пути под вашу инсталляцию OBS Studio (Windows x64)
+set(OBS_INCLUDE_DIR "C:/Program Files/obs-studio/include")
+set(OBS_LIB_DIR     "C:/Program Files/obs-studio/lib/x64")
+
+include_directories(${OBS_INCLUDE_DIR})
+link_directories(${OBS_LIB_DIR})
+
+add_library(music_player SHARED music_player.cpp)
+
+# Привязка к нужным библиотекам OBS
+target_link_libraries(music_player obs)
+# Если при линковке будут ошибки, добавьте нужные библиотеки obs-frontend-api и т.п.
+# target_link_libraries(music_player obs-frontend-api graphics)

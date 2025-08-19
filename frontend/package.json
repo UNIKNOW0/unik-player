@@ -1,23 +1,55 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "@tailwindcss/vite": "^4.0.0",
-    "svelte": "^5.28.1",
-    "tailwindcss": "^4.1.10",
-    "vite": "^6.3.5"
-  },
-  "dependencies": {
-    "@coooookies/windows-smtc-monitor": "^1.0.12",
-    "flowbite-svelte": "^1.7.1",
-    "node-vibrant": "^4.0.3"
-  }
+	"name": "unikplayer",
+	"version": "0.0.1",
+	"scripts": {
+  		"dev": "vite dev",
+  		"build": "vite build",
+  		"prebuild": "node ./scripts/backup-js.cjs",
+  		"postbuild": "node ./scripts/restore-js.cjs",
+  		"preview": "vite preview",
+  		"prepare": "svelte-kit sync || echo ''",
+  		"prepack": "svelte-kit sync && svelte-package -t false && publint",
+  		"sync": "publint"
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"svelte": "./dist/index.js",
+	"type": "module",
+	"exports": {
+		".": {
+			"svelte": "./dist/index.js"
+		}
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/adapter-static": "^3.0.9",
+		"@sveltejs/kit": "^2.22.0",
+		"@sveltejs/package": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^6.0.0",
+		"fs-extra": "^11.3.1",
+		"publint": "^0.3.2",
+		"sass": "^1.89.2",
+		"svelte": "^5.0.0",
+		"typescript": "^5.3.2",
+		"vite": "^7.0.4",
+		"vite-plugin-static-copy": "^3.1.1"
+	},
+	"keywords": [
+		"svelte"
+	],
+	"dependencies": {
+		"@coooookies/windows-smtc-monitor": "^1.0.12",
+		"flowbite-svelte": "^1.10.13",
+		"lucide-svelte": "^0.526.0",
+		"node-vibrant": "^4.0.3"
+	}
 }

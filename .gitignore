@@ -3,3 +3,6 @@ dist/
 *.exe
 bin/
 obj/
+build
+dist
+.vscode
