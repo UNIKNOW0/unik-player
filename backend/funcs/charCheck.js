@@ -1,7 +1,8 @@
-import { detect, detectAll } from 'tinyld';
-import { toRomaji } from 'wanakana';
+const { detect } = require('tinyld');
+const wanakana = require('wanakana');
+const { toRomaji } = wanakana;
 
-export function characterCheck(activeSesion){
+function characterCheck(activeSesion){
 
     function convertParts(parts) {
       const converted = parts.map((part) => {
@@ -16,7 +17,6 @@ export function characterCheck(activeSesion){
 
   if(activeSesion.media.title !== undefined ){
     let titleParts = activeSesion.media.title.split(' ');
-    //console.log(titleParts, "жопажопажопажопа")
     activeSesion.media.title = convertParts(titleParts);
     
     //console.log(activeSesion.media.title, '=> title after conversion');
@@ -32,9 +32,6 @@ export function characterCheck(activeSesion){
   }
 
   return activeSesion
-
-
-
 
 
 
@@ -84,3 +81,5 @@ export function characterCheck(activeSesion){
     console.log(JSON.stringify(activeSesion.media.artist))
 */
 }
+
+module.exports = { characterCheck }

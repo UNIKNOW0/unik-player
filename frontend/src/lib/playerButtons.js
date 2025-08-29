@@ -1,5 +1,5 @@
 import { style } from '$lib/stores/stores.js'
-import { ShowNotification } from '$lib/stores/stores'
+import { ShowNotification } from '$lib/stores/stores.js'
 
 export async function chooseFunc(name){        
     console.log(name + " выбран")

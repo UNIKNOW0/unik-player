@@ -1,6 +1,4 @@
 // src/lib/marquee.js
-// Лёгкий, надёжный marquee: поддерживает
-// <h2 use:marquee>Text</h2> и старый вариант с <span class="marquee__content">.
 
 // Action
 export function marquee(node, opts = {}) {

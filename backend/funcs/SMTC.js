@@ -1,6 +1,6 @@
-import { SMTCMonitor } from '@coooookies/windows-smtc-monitor';
-import { startWebSocketServer, broadcastMediaData } from './ws.js';
-import { characterCheck } from './charCheck.js';
+const { SMTCMonitor } = require('@coooookies/windows-smtc-monitor');
+const { startWebSocketServer, broadcastMediaData } = require('./ws.js');
+const { characterCheck } = require('./charCheck.js');
 
 // --- helper ---
 function mkFingerprint(session) {
@@ -24,7 +24,7 @@ function hasThumbnail(session) {
 }
 
 // --- SMTCListener ---
-export function SMTCListener() {
+function SMTCListener() {
   startWebSocketServer();
 
   let lastFingerprint = null;
@@ -128,3 +128,5 @@ export function SMTCListener() {
   monitor.on('session-playback-changed', handleCurrent);
   monitor.on('session-added', handleCurrent);
 }
+
+module.exports = { SMTCListener }

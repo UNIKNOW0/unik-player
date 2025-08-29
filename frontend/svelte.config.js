@@ -9,8 +9,8 @@ const config = {
   kit: {
     adapter: adapter({
       fallback: 'index.html', // для SPA-роутинга
-      pages: path.resolve(__dirname, '../tray/unikPlayer/resources'),
-      assets: path.resolve(__dirname, '../tray/unikPlayer/resources'),
+      pages: path.resolve(__dirname, '../frontBuild'),
+      assets: path.resolve(__dirname, '../frontBuild'),
     }),
     prerender: {
       entries: ['*']

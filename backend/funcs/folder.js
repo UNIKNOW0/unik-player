@@ -1,8 +1,8 @@
-import { mkdir } from 'fs/promises';
-import path from 'path';
-import { env } from 'process';
+const { mkdir } = 'fs/promises';
+const path = 'path';
+const { env } = 'process';
 
-export function makingAppDataDir(){
+function makingAppDataDir(){
 
     createFolderInAppData()
 
@@ -23,3 +23,5 @@ async function createFolderInAppData() {
     console.error('чето не так:', err);
   }
 }
+
+module.exports = { makingAppDataDir }

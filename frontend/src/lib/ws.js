@@ -1,6 +1,6 @@
 
 import { Vibrant } from "node-vibrant/browser";
-import { rgbToHex } from './convertToHex';
+import { rgbToHex } from './convertToHex.js';
 
 import { style, title, artist, thumbnail, ShowTrack} from './stores/stores.js'
 import { get } from 'svelte/store';

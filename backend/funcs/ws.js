@@ -1,10 +1,11 @@
 // funcs/ws.js
-import WebSocket, { WebSocketServer } from 'ws';
+const WebSocket = require('ws');
+const { WebSocketServer } = WebSocket;
 
 let wss = null;
 let currentMediaData = null;
 
-export function startWebSocketServer(port = 62727) {
+function startWebSocketServer(port = 62727) {
   if (wss) {
     console.log('[ws] WebSocket сервер уже запущен');
     return wss;
@@ -27,7 +28,7 @@ export function startWebSocketServer(port = 62727) {
   return wss;
 }
 
-export function broadcastMediaData(mediaData) {
+function broadcastMediaData(mediaData) {
   if (!wss) {
     console.warn('[ws] WebSocket сервер не запущен — нечего рассылать');
     return;
@@ -42,3 +43,5 @@ export function broadcastMediaData(mediaData) {
     }
   });
 }
+
+module.exports = { broadcastMediaData, startWebSocketServer }

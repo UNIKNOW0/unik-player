@@ -1,12 +1,19 @@
-import { SMTCListener } from './funcs/SMTC.js';
-import { makingAppDataDir } from './funcs/folder.js'
-import { startFrontendServer } from './funcs/server.js';
+const { SMTCListener } = require('./funcs/SMTC.js');
+const { makingAppDataDir } = require('./funcs/folder.js');
+const { openSite } = require('./funcs/openLocalSite.js');
+const { startFrontendServer } = require('./funcs/server.js');
+const { systemTray } = require('./funcs/tray.js');
 
 makingAppDataDir()
 SMTCListener()
-let frontendServer;
+systemTray()
+
 try {
   frontendServer = startFrontendServer({ port: 27272 });
+  openSite()
 } catch (e) {
   console.error('Не удалось поднять фронтенд:', e.message);
 }
+
+
+
