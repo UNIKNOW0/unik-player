@@ -1,0 +1,34 @@
+#include <winver.h>
+
+// Основная иконка для исполняемого файла
+IDI_ICON1 ICON "static\\trayIcon.ico"
+
+// Блок с информацией о версии и описанием
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    0,6,9,0
+PRODUCTVERSION 0,6,9,0
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+FILEFLAGS      0
+FILEOS         VOS_NT_WINDOWS32
+FILETYPE       VFT_APP
+FILESUBTYPE    VFT2_UNKNOWN
+
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0" // U.S. English and Unicode
+        BEGIN
+            VALUE "CompanyName", "uniknow"
+            VALUE "FileDescription", "The best video player ever!"
+            VALUE "FileVersion", "0.6.9.0"
+            VALUE "InternalName", "UnikPlayer"
+            VALUE "LegalCopyright", "Copyright (C) 2025 uniknow"
+            VALUE "ProductName", "UnikPlayer"
+            VALUE "ProductVersion", "0.6.9.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END

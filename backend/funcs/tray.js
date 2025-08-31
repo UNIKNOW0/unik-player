@@ -23,7 +23,7 @@ if (typeof SystrayCtor !== 'function') {
 
 // === Настройки ===
 const SITE_URL = 'http://localhost:27272';
-const ICON_PATH = path.resolve('./static/trayIcon.ico');
+const ICON_PATH = path.join('static', 'trayIcon.ico');
 const KILL_TARGET_BY_NAME = 'myapp.exe';
 
 let iconBase64 = '';

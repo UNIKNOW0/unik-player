@@ -1,3 +1,4 @@
+
 const { SMTCMonitor } = require('@coooookies/windows-smtc-monitor');
 const { startWebSocketServer, broadcastMediaData } = require('./ws.js');
 const { characterCheck } = require('./charCheck.js');

@@ -4,8 +4,6 @@
 	"scripts": {
   		"dev": "vite dev",
   		"build": "vite build",
-  		"prebuild": "node ./scripts/backup-js.cjs",
-  		"postbuild": "node ./scripts/restore-js.cjs",
   		"preview": "vite preview",
   		"prepare": "svelte-kit sync || echo ''",
   		"prepack": "svelte-kit sync && svelte-package -t false && publint",

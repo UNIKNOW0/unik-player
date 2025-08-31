@@ -29,6 +29,7 @@
             <h3>Подожди</h3>
         {:else}
             <h1 class="notificationMusicOff">включи трек, чтобы плееры показались</h1>
+
             {#each players as { component, name }}
               
                 <div class="playerDiv">
@@ -41,6 +42,8 @@
                         <!-- <div on:click={() => chooseFunc(name)} class="playerChoose">
                             <h2>Выбрать</h2>
                         </div> -->
+                        <!-- svelte-ignore a11y_click_events_have_key_events -->
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
                         <div on:click={() => copyPlayerStyle(name)} class="playerCopyURL">
                             <h2>Скопировать</h2>
                         </div>
@@ -48,6 +51,7 @@
                 </div>
               
             {/each}
+
         {/if} 
 
     </div>
