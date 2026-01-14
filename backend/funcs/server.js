@@ -10,7 +10,8 @@ const { fileURLToPath } = 'url';
 
 const mimeMap = {
   html: 'text/html; charset=utf-8',
-  js: 'application/javascript; charset=utf-8',
+  js: 'text/javascript; charset=utf-8',
+  mjs: 'text/javascript; charset=utf-8',
   css: 'text/css; charset=utf-8',
   json: 'application/json; charset=utf-8',
   png: 'image/png',
@@ -18,7 +19,10 @@ const mimeMap = {
   jpeg: 'image/jpeg',
   svg: 'image/svg+xml',
   ico: 'image/x-icon',
-  webp: 'image/webp'
+  webp: 'image/webp',
+  woff: 'font/woff',
+  woff2: 'font/woff2',
+  ttf: 'font/ttf'
 };
 
 function ensureDirSync(p) {
@@ -93,6 +97,7 @@ function startFrontendServer(options = {}) {
 
     const requested = path.normalize(path.join(staticDir, pathname));
     if (!requested.startsWith(staticDir)) {
+      console.log(`[FrontendServer] 403 Forbidden: ${pathname}`);
       res.writeHead(403);
       res.end('Forbidden');
       return;
@@ -101,17 +106,22 @@ function startFrontendServer(options = {}) {
     fs.stat(requested, (err, stats) => {
       let toServe = requested;
       if (err || !stats.isFile()) {
+        // Если файл не найден, возвращаем index.html (SPA routing)
         toServe = indexPath;
+        console.log(`[FrontendServer] File not found, serving index: ${pathname}`);
       }
 
       fs.readFile(toServe, (readErr, data) => {
         if (readErr) {
+          console.error(`[FrontendServer] 500 Error reading ${toServe}:`, readErr.message);
           res.writeHead(500);
           res.end('Server error');
           return;
         }
         const ext = path.extname(toServe).slice(1).toLowerCase();
         const mime = mimeMap[ext] || 'application/octet-stream';
+
+        console.log(`[FrontendServer] 200 ${pathname} -> ${mime}`);
         res.writeHead(200, { 'Content-Type': mime });
         res.end(data);
       });

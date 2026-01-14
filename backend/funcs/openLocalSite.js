@@ -19,7 +19,4 @@ function openSite(url = DEFAULT_SITE_URL) { // <- дефолт, если не п
   });
 }
 
-// при старте программы
-openSite(); // <- использует дефолт, если ничего не передали
-
 module.exports = { openSite };

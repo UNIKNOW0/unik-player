@@ -3,8 +3,9 @@
   "version": "0.6.9.0",
   "main": "index.js",
   "scripts": {
-    "build:nexe": "npx nexe index.js -t windows-x64-14.15.3 -r \"../frontBuild/**/*\" -o UnikPlayer.exe --verbose --ico '.static/trayIcon.ico'",
-    "build": "npm run build:nexe"
+    "build": "node build.js",
+    "build:frontend": "cd ../frontend && npm run build",
+    "build:full": "npm run build:frontend && npm run build"
   },
   "keywords": [],
   "author": "UNIKNOW",

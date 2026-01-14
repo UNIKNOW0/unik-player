@@ -23,26 +23,30 @@ if (typeof SystrayCtor !== 'function') {
 
 // === Настройки ===
 const SITE_URL = 'http://localhost:27272';
-const ICON_PATH = path.join('static', 'trayIcon.ico');
+// Получаем абсолютный путь к директории, где находится UnikPlayer.exe
+const exeDir = path.dirname(process.execPath);
+const ICON_PATH = path.join(exeDir, 'static', 'trayIcon.ico');
 const KILL_TARGET_BY_NAME = 'myapp.exe';
 
 let iconBase64 = '';
 try {
   const buf = fs.readFileSync(ICON_PATH);
   iconBase64 = buf.toString('base64');
+  console.log('Tray icon loaded from:', ICON_PATH);
 } catch (err) {
-  console.warn('Icon not found, tray may show default icon.');
+  console.warn('Icon not found at:', ICON_PATH);
+  console.warn('Error:', err.message);
 }
 
 // создаём
 const systray = new SystrayCtor({
   menu: {
     icon: iconBase64,            // глобально — base64 .ico/.png
-    title: 'MyTray',
-    tooltip: 'MyTray tooltip',
+    title: 'UnikPlayer',
+    tooltip: 'UnikPlayer - The best video player ever!',
     items: [
       { title: 'Open site',    tooltip: 'Открыть сайт',    enabled: true },
-      { title: 'Quit',         tooltip: 'Выйти',          enabled: true }
+      { title: 'Close',        tooltip: 'Закрыть',        enabled: true }
     ]
   }
 });
@@ -61,7 +65,7 @@ systray.onClick(({ seq_id }) => {
       break;
     }
 
-    case 1: { // Quit
+    case 1: { // Close
       systray.kill(() => process.exit(0));
       break;
     }

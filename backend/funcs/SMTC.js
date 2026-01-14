@@ -25,7 +25,16 @@ function hasThumbnail(session) {
 }
 
 // --- SMTCListener ---
+// Глобальная переменная для хранения активного монитора
+let activeMonitor = null;
+
 function SMTCListener() {
+  // Если монитор уже запущен, не создаем новый
+  if (activeMonitor) {
+    console.log('SMTCListener уже запущен, пропускаем создание нового экземпляра');
+    return activeMonitor;
+  }
+
   startWebSocketServer();
 
   let lastFingerprint = null;
@@ -128,6 +137,24 @@ function SMTCListener() {
   monitor.on('session-media-changed', handleCurrent);
   monitor.on('session-playback-changed', handleCurrent);
   monitor.on('session-added', handleCurrent);
+
+  // Сохраняем ссылку на активный монитор
+  activeMonitor = monitor;
+
+  return monitor;
 }
 
-module.exports = { SMTCListener }
+// Функция для остановки и очистки монитора
+function stopSMTCListener() {
+  if (activeMonitor) {
+    try {
+      activeMonitor.removeAllListeners();
+      activeMonitor = null;
+      console.log('SMTCListener остановлен и очищен');
+    } catch (err) {
+      console.error('Ошибка при остановке SMTCListener:', err);
+    }
+  }
+}
+
+module.exports = { SMTCListener, stopSMTCListener }
